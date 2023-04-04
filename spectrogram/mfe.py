@@ -35,7 +35,7 @@ def generate_features(signal, sampling_freq,
 
     # we calculate the filter banks in numpy since it involves some difficult
     # to port to jax pieces and isn't dependant on the signal, it's just an fixed set of
-    # parameters. 
+    # parameters.
     # TODO(mat) externalise so they are learnable
     # TODO(mat) where does 129 come from again?
     filter_banks = feature.filterbanks(num_filters, coefficients=129,
@@ -57,12 +57,12 @@ def generate_features(signal, sampling_freq,
     # log_mel_spec = (log_mel_spec + self._power_offset - 32 + 32.0) / 64.0
     # log_mel_spec = tf.clip_by_value(log_mel_spec, 0, 1)
     mfe = (mfe - noise_floor_db) / ((-1 * noise_floor_db) + 12)
-    mfe = jnp.clip(mfe, 0, 1)
+    # mfe = jnp.clip(mfe, 0, 1)
 
-    # Quantize to 8 bits and dequantize back to float32
-    mfe = jnp.uint8(jnp.around(mfe * 2**8))
-    # clip to 2**8
-    mfe = jnp.clip(mfe, 0, 255)
-    mfe = jnp.float32(mfe / 2**8)
+    # # Quantize to 8 bits and dequantize back to float32
+    # mfe = jnp.uint8(jnp.around(mfe * 2**8))
+    # # clip to 2**8
+    # mfe = jnp.clip(mfe, 0, 255)
+    # mfe = jnp.float32(mfe / 2**8)
 
     return mfe.reshape(-1, num_filters)

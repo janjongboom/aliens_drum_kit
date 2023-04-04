@@ -4,3 +4,4 @@ __pycache__/
 npys
 aliens_audio.aac
 aliens_audio.npy
+*.tflite
